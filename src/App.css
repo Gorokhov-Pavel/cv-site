@@ -142,6 +142,29 @@
   gap: 14px;
 }
 
+.projectCardWrap {
+  display: contents;
+}
+
+@media (max-width: 719px) {
+  .section.sectionProjects {
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 0;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    background: transparent;
+  }
+
+  .sectionProjects .sectionHeader {
+    padding: 0 16px 14px;
+  }
+
+  .sectionProjects .projectsGrid {
+    gap: 0;
+  }
+}
+
 .projectCard {
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -185,46 +208,208 @@
   margin-top: 8px;
 }
 
-.gallery {
-  padding: 12px 0 14px;
-}
-
-.galleryTrack {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 76%;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 0 14px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.galleryTrack::-webkit-scrollbar {
-  height: 10px;
-}
-
-.galleryTrack::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.18);
-  border-radius: 999px;
-}
-
-.phoneFrame {
-  margin: 0;
-  border-radius: 26px;
+.projectCardHero {
+  position: relative;
+  min-height: 78svh;
+  padding: 0;
   border: 1px solid var(--border);
-  background: var(--card-bg);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  aspect-ratio: 9 / 16;
-  scroll-snap-align: start;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.phoneShot {
-  width: 100%;
-  height: 100%;
+.projectCardBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 30% 20%, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0.72)),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.65));
+}
+
+.projectOverlay {
+  position: relative;
+  z-index: 2;
+  padding: 14px;
+}
+
+.projectHeaderOverlay {
+  padding: 0;
+}
+
+.projectTitleOverlay,
+.projectDescriptionOverlay {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.projectLinkOverlay {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.projectLinkOverlay:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.92);
+}
+
+.chipsOverlay > li {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.projectHeaderOverlay {
+  display: grid;
+  gap: 10px;
+  padding: 14px 14px 12px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(10px);
+}
+
+.projectGalleryDesktop {
+  display: none;
+}
+
+.projectSlidesMobile {
   display: block;
-  object-fit: cover;
+}
+
+.projectSlide {
+  box-sizing: border-box;
+}
+
+.projectSlideHit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.projectSlideHit:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: -4px;
+}
+
+.projectSlideCaptionBar {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: max(14px, env(safe-area-inset-bottom, 14px));
+  z-index: 2;
+  pointer-events: none;
+}
+
+.projectSlideCaption {
+  display: inline-block;
+  max-width: 100%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.38);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.projectCardDesktop {
+  display: none !important;
+}
+
+@media (max-width: 719px) {
+  .projectSlide {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: clip;
+    border-radius: 0;
+  }
+
+  .projectSlide:not(.projectSlideFirst) .projectCardBg {
+    background:
+      linear-gradient(to top, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.12) 38%, rgba(0, 0, 0, 0.22)),
+      radial-gradient(90% 70% at 50% 100%, rgba(0, 0, 0, 0.45), transparent 55%);
+  }
+}
+
+.galleryNav {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.galleryNav:hover {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.galleryNav:active {
+  transform: translateY(1px);
+}
+
+.galleryNav:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 2px;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.78);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.lightboxInner {
+  width: min(1100px, 100%);
+  max-height: 92svh;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: 92svh;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lightboxClose {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
 }
 
 .footer {
@@ -232,6 +417,14 @@
 }
 
 @media (min-width: 720px) {
+  .projectSlidesMobile {
+    display: none;
+  }
+
+  .projectCardDesktop {
+    display: block !important;
+  }
+
   .page {
     padding: 28px 22px 40px;
     gap: 26px;
@@ -253,12 +446,133 @@
   }
 
   .projectsGrid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .galleryTrack {
-    grid-auto-columns: 56%;
+  .projectCardDesktop.projectCardHero {
+    min-height: unset;
+    background-color: var(--bg);
+    background-image: none !important;
+    display: block;
+    padding: 16px;
+  }
+
+  .projectDesktopInner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .projectCardDesktop .projectCardBg {
+    display: none;
+  }
+
+  .projectOverlay {
+    padding: 0;
+  }
+
+  .projectHeaderOverlay {
+    background: transparent;
+    border: 0;
+    backdrop-filter: none;
+    padding: 0;
+  }
+
+  .projectTitleOverlay,
+  .projectDescriptionOverlay,
+  .projectLinkOverlay {
+    color: var(--text-h);
+  }
+
+  .projectLinkOverlay:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .chipsOverlay > li {
+    border-color: var(--border);
+    background: var(--chip-bg);
+    color: var(--text-h);
+  }
+
+  .projectGalleryDesktop {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .galleryNav {
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-h);
+  }
+
+  .galleryNav:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  .galleryNav:focus-visible {
+    outline: 2px solid var(--accent);
+  }
+
+  .galleryStrip {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding: 6px 2px;
+    align-items: stretch;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .galleryStrip::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .galleryStrip::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+  }
+
+  .galleryThumbButton {
+    flex: 0 0 clamp(148px, 22vw, 220px);
+    scroll-snap-align: start;
+    border: 0;
+    padding: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    aspect-ratio: 9 / 16;
+    cursor: zoom-in;
+    background: var(--card-bg);
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+  }
+
+  .galleryThumbButton:hover {
+    box-shadow:
+      rgba(0, 0, 0, 0.12) 0 14px 24px -6px,
+      rgba(0, 0, 0, 0.08) 0 8px 16px -6px;
+  }
+
+  .galleryThumbButton:active {
+    transform: translateY(1px);
+  }
+
+  .galleryThumbButton:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .galleryThumb {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
   }
 }
 
@@ -268,10 +582,6 @@
   }
 
   .projectsGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .galleryTrack {
-    grid-auto-columns: 46%;
+    grid-template-columns: 1fr;
   }
 }

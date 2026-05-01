@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="450" height="900" viewBox="0 0 450 900" role="img" aria-label="Project 1 screen 3">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#111827"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+  </defs>
+  <rect width="450" height="900" rx="44" fill="url(#bg)"/>
+  <rect x="36" y="84" width="378" height="64" rx="18" fill="rgba(255,255,255,0.08)"/>
+  <rect x="36" y="180" width="240" height="28" rx="10" fill="rgba(255,255,255,0.88)"/>
+  <rect x="36" y="230" width="320" height="18" rx="9" fill="rgba(255,255,255,0.35)"/>
+  <rect x="36" y="310" width="378" height="44" rx="16" fill="rgba(99,102,241,0.35)"/>
+  <rect x="36" y="368" width="378" height="44" rx="16" fill="rgba(255,255,255,0.10)"/>
+  <rect x="36" y="426" width="378" height="44" rx="16" fill="rgba(255,255,255,0.10)"/>
+  <rect x="36" y="484" width="378" height="44" rx="16" fill="rgba(255,255,255,0.10)"/>
+  <rect x="36" y="568" width="378" height="250" rx="26" fill="rgba(255,255,255,0.06)"/>
+  <text x="50%" y="92%" dominant-baseline="middle" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="22" fill="rgba(255,255,255,0.85)">
+    Project 1  Screen 3
+  </text>
+</svg>
+

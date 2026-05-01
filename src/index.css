@@ -64,6 +64,18 @@ body {
   padding: 0;
 }
 
+@media (max-width: 719px) {
+  /* Включается из JS (Projects), когда первый проект занял ≥ половины экрана */
+  html.snapProjects {
+    scroll-snap-type: y mandatory;
+    scroll-padding: 0;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
 h1,
 h2 {
   font-family: var(--heading);
