@@ -1,6 +1,6 @@
 import './App.css'
 import profilePhoto from './assets/profile.svg'
-import { Projects } from './components/Projects'
+import { Projects } from './components/Projects.tsx'
 
 function App() {
   return (
