@@ -4,10 +4,13 @@ import p1s2 from '../assets/projects/project-1/screen-2.svg'
 import p1s3 from '../assets/projects/project-1/screen-3.svg'
 import p2s1 from '../assets/projects/project-2/screen-1.svg'
 import p2s2 from '../assets/projects/project-2/screen-2.svg'
+import p2s3 from '../assets/projects/project-2/screen-3.svg'
 
 type Project = {
   title: string
   description: string
+  team?: string
+  outro?: string
   stack: string[]
   links?: Array<{ label: string; href: string }>
   screenshots: Array<{ src: string; alt: string }>
@@ -22,6 +25,8 @@ const projects: Project[] = [
     title: 'Проект №1',
     description:
       'Короткое описание проекта в 1–2 предложения: что это и какой результат.',
+    team: 'Команда проекта состояла из опытных разработчиков, дизайнеров и менеджеров проекта, работавших совместно для достижения общей цели.',
+    outro: 'Проект был успешно завершён в срок и получил положительные отзывы пользователей. Результаты показали высокую эффективность реализованного решения.',
     stack: ['React', 'TypeScript', 'Vite'],
     links: [
       { label: 'Demo', href: 'https://example.com' },
@@ -37,10 +42,13 @@ const projects: Project[] = [
     title: 'Проект №2',
     description:
       'Ещё один проект. Тут можно подчеркнуть интересную фичу: офлайн, анимации, оптимизация и т.д.',
+    team: 'Команда состояла из фронтенд-разработчиков, которые сосредоточились на оптимизации производительности и создании отзывчивого интерфейса.',
+    outro: 'Благодаря инновационному подходу проект стал образцом лучших практик в индустрии. Пользователи отметили улучшенную скорость и удобство использования.',
     stack: ['React', 'CSS', 'API'],
     screenshots: [
       { src: p2s1, alt: 'Экран 1' },
       { src: p2s2, alt: 'Экран 2' },
+      { src: p2s3, alt: 'Экран 3' },
     ],
   },
 ]
@@ -49,14 +57,23 @@ function ProjectCard({
   project,
   onOpenLightbox,
   firstSlideRef,
+  isZoomed,
 }: {
   project: Project
   onOpenLightbox: (src: string, alt: string, title: string) => void
   firstSlideRef?: RefObject<HTMLElement | null>
+  isZoomed?: boolean
 }) {
   const labelIdMobile = useId()
   const labelIdDesktop = useId()
   const stripRef = useRef<HTMLDivElement>(null)
+  const [isOverlayHidden, setIsOverlayHidden] = useState(false)
+  const hideOverlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Split outro into sentences for distribution across slides
+  const outroSentences = project.outro
+    ? project.outro.split(/(?<=[.!?])\s+/).filter(s => s.trim())
+    : []
 
   function scrollStrip(dir: -1 | 1) {
     const el = stripRef.current
@@ -65,65 +82,150 @@ function ProjectCard({
     el.scrollBy({ left: dir * step, behavior: 'smooth' })
   }
 
+  function hideOverlay() {
+    if (hideOverlayTimeoutRef.current) {
+      clearTimeout(hideOverlayTimeoutRef.current)
+    }
+    setIsOverlayHidden(true)
+    hideOverlayTimeoutRef.current = setTimeout(() => {
+      setIsOverlayHidden(false)
+    }, 5000)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (hideOverlayTimeoutRef.current) {
+        clearTimeout(hideOverlayTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  // Helper to get content for each mobile slide
+  function getMobileSlideContent(slideIndex: number) {
+    if (slideIndex === 0) {
+      return {
+        showTitle: true,
+        showLinks: true,
+        showDescription: true,
+        showTeam: false,
+        showStack: false,
+        showOutro: false,
+      }
+    } else if (slideIndex === 1) {
+      return {
+        showTitle: true,
+        showLinks: false,
+        showDescription: false,
+        showTeam: true,
+        showStack: true,
+        showOutro: false,
+      }
+    } else {
+      // Slides 2+: distribute outro sentences
+      const outroStartIndex = slideIndex - 2
+      const isLastSlide = slideIndex === project.screenshots.length - 1
+      
+      return {
+        showTitle: true,
+        showLinks: false,
+        showDescription: false,
+        showTeam: false,
+        showStack: false,
+        showOutro: true,
+        outroText: isLastSlide
+          ? outroSentences.slice(outroStartIndex).join(' ')
+          : outroSentences[outroStartIndex] || '',
+      }
+    }
+  }
+
   return (
     <div className="projectCardWrap">
       <div className="projectSlidesMobile">
-        {project.screenshots.map((s, i) => (
-          <article
-            key={`${project.title}-m-${i}`}
-            ref={i === 0 ? firstSlideRef : undefined}
-            className={`projectSlide ${i === 0 ? 'projectSlideFirst' : ''}`}
-            style={{ backgroundImage: `url(${s.src})` }}
-            aria-labelledby={i === 0 ? labelIdMobile : undefined}
-          >
-            <div className="projectCardBg" aria-hidden="true" />
+        {project.screenshots.map((s, i) => {
+          const content = getMobileSlideContent(i)
+          
+          
+          return (
+            <article
+              key={`${project.title}-m-${i}`}
+              ref={i === 0 ? firstSlideRef : undefined}
+              className={`projectSlide ${i === 0 ? 'projectSlideFirst' : ''} ${isZoomed ? 'projectSlideZoomed' : ''}`}
+              style={{ backgroundImage: `url(${s.src})` }}
+              aria-labelledby={i === 0 ? labelIdMobile : undefined}
+            >
+              <div className="projectCardBg" aria-hidden="true" />
 
-            {i === 0 ? (
-              <div className="projectOverlay">
-                <header className="projectHeader projectHeaderOverlay">
-                  <div className="projectTitleRow">
-                    <h3 className="projectTitle projectTitleOverlay" id={labelIdMobile}>
-                      {project.title}
-                    </h3>
-                    {project.links?.length ? (
-                      <div className="projectLinks">
-                        {project.links.map((l) => (
-                          <a
-                            key={l.href}
-                            className="projectLink projectLinkOverlay"
-                            href={l.href}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {l.label}
-                          </a>
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
-                  <p className="projectDescription projectDescriptionOverlay">{project.description}</p>
-                  <ul className="chips chipsSm chipsOverlay" aria-label="Стек">
-                    {project.stack.map((st) => (
-                      <li key={st}>{st}</li>
-                    ))}
-                  </ul>
-                </header>
-              </div>
-            ) : (
-              <>
+              <div className={`projectOverlay ${(isZoomed || isOverlayHidden) ? 'projectOverlayHidden' : 'projectOverlayVisible'}`}>
                 <button
                   type="button"
-                  className="projectSlideHit"
-                  aria-label={`Увеличить: ${s.alt}`}
-                  onClick={() => onOpenLightbox(s.src, s.alt, project.title)}
-                />
-                <div className="projectSlideCaptionBar" aria-hidden="true">
-                  <span className="projectSlideCaption">{s.alt}</span>
-                </div>
-              </>
-            )}
-          </article>
-        ))}
+                  className="projectOverlayClose"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    hideOverlay()
+                  }}
+                  aria-label="Закрыть текст"
+                >
+                  ✕
+                </button>
+                <header className="projectHeader projectHeaderOverlay">
+                  {content.showTitle && (
+                    <div className="projectTitleRow">
+                      <h3 className="projectTitle projectTitleOverlay" id={labelIdMobile}>
+                        {project.title}
+                      </h3>
+                      {content.showLinks && project.links?.length ? (
+                        <div className="projectLinks">
+                          {project.links.map((l) => (
+                            <a
+                              key={l.href}
+                              className="projectLink projectLinkOverlay"
+                              href={l.href}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {l.label}
+                            </a>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
+                  {content.showDescription && (
+                    <p className="projectDescription projectDescriptionOverlay">{project.description}</p>
+                  )}
+                  {content.showTeam ? (
+                    <p className="projectTeam projectDescriptionOverlay">{project.team}</p>
+                    ) : null}
+                  {content.showOutro ? (
+                    <p className="projectDescription projectDescriptionOverlay">{content.outroText}</p>
+                  ) : null}
+                  {content.showStack && (
+                    <ul className="chips chipsSm chipsOverlay" aria-label="Стек">
+                      {project.stack.map((st) => (
+                        <li key={st}>{st}</li>
+                      ))}
+                    </ul>
+                  )}
+                </header>
+              </div>
+
+              {i !== 0 && !content.showTeam && !content.showOutro ? (
+                <>
+                  <button
+                    type="button"
+                    className="projectSlideHit"
+                    aria-label={`Увеличить: ${s.alt}`}
+                    onClick={() => onOpenLightbox(s.src, s.alt, project.title)}
+                  />
+                  <div className="projectSlideCaptionBar" aria-hidden="true">
+                    <span className="projectSlideCaption">{s.alt}</span>
+                  </div>
+                </>
+              ) : null}
+            </article>
+          )
+        })}
       </div>
 
       <article
@@ -154,6 +256,14 @@ function ProjectCard({
                 ) : null}
               </div>
               <p className="projectDescription projectDescriptionOverlay">{project.description}</p>
+              {project.team && (
+                <>
+                  <p className="projectTeam projectDescriptionOverlay">{project.team}</p>
+                </>
+              )}
+              {project.outro && (
+                <p className="projectDescription projectDescriptionOverlay">{project.outro}</p>
+              )}
               <ul className="chips chipsSm chipsOverlay" aria-label="Стек">
                 {project.stack.map((st) => (
                   <li key={st}>{st}</li>
@@ -204,6 +314,7 @@ export function Projects() {
   const sectionRef = useRef<HTMLElement>(null)
   const firstProjectSlideRef = useRef<HTMLElement>(null)
   const snapEngagedRef = useRef(false)
+  const [isZoomed, setIsZoomed] = useState(false)
 
   useEffect(() => {
     const SNAP = 'snapProjects'
@@ -221,40 +332,49 @@ export function Projects() {
         return
       }
 
-      const slide = firstProjectSlideRef.current
       const section = sectionRef.current
-      if (!slide || !section) return
+      if (!section) return
 
       const vh = window.innerHeight
-      const slideRect = slide.getBoundingClientRect()
-      const visiblePx = Math.max(0, Math.min(slideRect.bottom, vh) - Math.max(slideRect.top, 0))
-      const sectionTopDoc = section.getBoundingClientRect().top + window.scrollY
-      const aboveProjects = window.scrollY < sectionTopDoc - 32
+      const viewport = window.visualViewport
+      const zoomed = viewport ? viewport.scale > 1.05 : false
+      setIsZoomed((current) => (current === zoomed ? current : zoomed))
 
-      if (aboveProjects) {
+      if (zoomed) {
+        root.classList.add('zoomed')
+      } else {
+        root.classList.remove('zoomed')
+      }
+
+      const sectionRect = section.getBoundingClientRect()
+      const inProjectsSection = sectionRect.bottom > 0 && sectionRect.top < vh
+
+      if (!inProjectsSection || zoomed) {
         clearSnap()
         return
       }
 
-      if (visiblePx >= vh * 0.5) {
-        snapEngagedRef.current = true
-      }
+      root.classList.add(SNAP)
+    }
 
-      if (snapEngagedRef.current) {
-        root.classList.add(SNAP)
-      } else {
-        root.classList.remove(SNAP)
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        updateSnap()
       }
     }
 
     updateSnap()
     window.addEventListener('scroll', updateSnap, { passive: true })
     window.addEventListener('resize', updateSnap)
+    window.visualViewport?.addEventListener('resize', updateSnap)
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
     mq.addEventListener('change', updateSnap)
 
     return () => {
       window.removeEventListener('scroll', updateSnap)
       window.removeEventListener('resize', updateSnap)
+      window.visualViewport?.removeEventListener('resize', updateSnap)
+      window.removeEventListener('touchmove', handleTouchMove)
       mq.removeEventListener('change', updateSnap)
       clearSnap()
     }
@@ -284,6 +404,7 @@ export function Projects() {
             project={p}
             onOpenLightbox={openLightbox}
             firstSlideRef={i === 0 ? firstProjectSlideRef : undefined}
+            isZoomed={isZoomed}
           />
         ))}
       </div>
