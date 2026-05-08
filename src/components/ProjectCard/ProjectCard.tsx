@@ -1,14 +1,14 @@
-import { useEffect, useId, useRef, useState, type RefObject } from 'react';
+import { useEffect, useId, useRef, useState, type RefObject } from "react";
 
 export type Project = {
-  title: string
-  description: string
-  team?: string
-  outro?: string
-  stack: string[]
-  links?: Array<{ label: string; href: string }>
-  screenshots: Array<{ src: string; alt: string }>
-}
+  title: string;
+  description: string;
+  team?: string;
+  outro?: string;
+  stack: string[];
+  links?: Array<{ label: string; href: string }>;
+  screenshots: Array<{ src: string; alt: string }>;
+};
 
 function ProjectCard({
   project,
@@ -16,79 +16,84 @@ function ProjectCard({
   firstSlideRef,
   isZoomed,
 }: {
-  project: Project
-  onOpenLightbox: (src: string, alt: string, title: string) => void
-  firstSlideRef?: RefObject<HTMLElement | null>
-  isZoomed?: boolean
+  project: Project;
+  onOpenLightbox: (src: string, alt: string, title: string) => void;
+  firstSlideRef?: RefObject<HTMLElement | null>;
+  isZoomed?: boolean;
 }) {
-  const labelIdMobile = useId()
-  const labelIdDesktop = useId()
-  const stripRef = useRef<HTMLDivElement>(null)
-  const [isOverlayHidden, setIsOverlayHidden] = useState(false)
-  const [isGalleryScrollable, setIsGalleryScrollable] = useState(false)
-  const isGalleryScrollableRef = useRef(false)
-  const hideOverlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const labelIdMobile = useId();
+  const labelIdDesktop = useId();
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [isOverlayHidden, setIsOverlayHidden] = useState(false);
+  const [isGalleryScrollable, setIsGalleryScrollable] = useState(false);
+  const isGalleryScrollableRef = useRef(false);
+  const hideOverlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   useEffect(() => {
-    const el = stripRef.current
-    if (!el) return
+    const el = stripRef.current;
+    if (!el) return;
 
-    const parent = el.parentElement
-    const navButton = parent?.querySelector<HTMLButtonElement>('.galleryNav')
-    const navWidth = navButton?.clientWidth ?? 52
-    const navGap = 12
+    const parent = el.parentElement;
+    const navButton = parent?.querySelector<HTMLButtonElement>(".galleryNav");
+    const navWidth = navButton?.clientWidth ?? 52;
+    const navGap = 12;
 
     const updateGalleryScroll = () => {
-      const containerWidth = parent?.clientWidth ?? el.clientWidth
-      const availableWidth = Math.max(0, containerWidth - (navWidth * 2 + navGap))
-      const nextScrollable = el.scrollWidth > availableWidth + 1
+      const containerWidth = parent?.clientWidth ?? el.clientWidth;
+      const availableWidth = Math.max(
+        0,
+        containerWidth - (navWidth * 2 + navGap),
+      );
+      const nextScrollable = el.scrollWidth > availableWidth + 1;
       if (nextScrollable !== isGalleryScrollableRef.current) {
-        isGalleryScrollableRef.current = nextScrollable
-        setIsGalleryScrollable(nextScrollable)
+        isGalleryScrollableRef.current = nextScrollable;
+        setIsGalleryScrollable(nextScrollable);
       }
-    }
+    };
 
-    updateGalleryScroll()
+    updateGalleryScroll();
 
-    const resizeObserver = new ResizeObserver(updateGalleryScroll)
-    resizeObserver.observe(el)
-    window.addEventListener('resize', updateGalleryScroll)
+    const resizeObserver = new ResizeObserver(updateGalleryScroll);
+    resizeObserver.observe(el);
+    window.addEventListener("resize", updateGalleryScroll);
 
     return () => {
-      resizeObserver.disconnect()
-      window.removeEventListener('resize', updateGalleryScroll)
-    }
-  }, [project.screenshots.length])
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateGalleryScroll);
+    };
+  }, [project.screenshots.length]);
 
   // Split outro into sentences for distribution across slides
   const outroSentences = project.outro
-    ? project.outro.split(/(?<=[.!?])\s+/).filter(s => s.trim())
-    : []
+    ? project.outro.split(/(?<=[.!?])\s+/).filter((s) => s.trim())
+    : [];
 
   function scrollStrip(dir: -1 | 1) {
-    const el = stripRef.current
-    if (!el) return
-    const step = Math.max(220, Math.floor(el.clientWidth * 0.75))
-    el.scrollBy({ left: dir * step, behavior: 'smooth' })
+    const el = stripRef.current;
+    if (!el) return;
+    const step = Math.max(220, Math.floor(el.clientWidth * 0.75));
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
   }
 
   function hideOverlay() {
     if (hideOverlayTimeoutRef.current) {
-      clearTimeout(hideOverlayTimeoutRef.current)
+      clearTimeout(hideOverlayTimeoutRef.current);
     }
-    setIsOverlayHidden(true)
+    setIsOverlayHidden(true);
     hideOverlayTimeoutRef.current = setTimeout(() => {
-      setIsOverlayHidden(false)
-    }, 5000)
+      setIsOverlayHidden(false);
+    }, 5000);
   }
 
   useEffect(() => {
     return () => {
       if (hideOverlayTimeoutRef.current) {
-        clearTimeout(hideOverlayTimeoutRef.current)
+        clearTimeout(hideOverlayTimeoutRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   // Helper to get content for each mobile slide
   function getMobileSlideContent(slideIndex: number) {
@@ -100,7 +105,7 @@ function ProjectCard({
         showTeam: false,
         showStack: false,
         showOutro: false,
-      }
+      };
     } else if (slideIndex === 1) {
       return {
         showTitle: true,
@@ -109,12 +114,12 @@ function ProjectCard({
         showTeam: true,
         showStack: true,
         showOutro: false,
-      }
+      };
     } else {
       // Slides 2+: distribute outro sentences
-      const outroStartIndex = slideIndex - 2
-      const isLastSlide = slideIndex === project.screenshots.length - 1
-      
+      const outroStartIndex = slideIndex - 2;
+      const isLastSlide = slideIndex === project.screenshots.length - 1;
+
       return {
         showTitle: true,
         showLinks: false,
@@ -123,9 +128,9 @@ function ProjectCard({
         showStack: false,
         showOutro: true,
         outroText: isLastSlide
-          ? outroSentences.slice(outroStartIndex).join(' ')
-          : outroSentences[outroStartIndex] || '',
-      }
+          ? outroSentences.slice(outroStartIndex).join(" ")
+          : outroSentences[outroStartIndex] || "",
+      };
     }
   }
 
@@ -133,26 +138,27 @@ function ProjectCard({
     <div className="projectCardWrap">
       <div className="projectSlidesMobile">
         {project.screenshots.map((s, i) => {
-          const content = getMobileSlideContent(i)
-          
-          
+          const content = getMobileSlideContent(i);
+
           return (
             <article
               key={`${project.title}-m-${i}`}
               ref={i === 0 ? firstSlideRef : undefined}
-              className={`projectSlide ${i === 0 ? 'projectSlideFirst' : ''} ${isZoomed ? 'projectSlideZoomed' : ''}`}
+              className={`projectSlide ${i === 0 ? "projectSlideFirst" : ""} ${isZoomed ? "projectSlideZoomed" : ""}`}
               style={{ backgroundImage: `url(${s.src})` }}
               aria-labelledby={i === 0 ? labelIdMobile : undefined}
             >
               <div className="projectCardBg" aria-hidden="true" />
 
-              <div className={`projectOverlay ${(isZoomed || isOverlayHidden) ? 'projectOverlayHidden' : 'projectOverlayVisible'}`}>
+              <div
+                className={`projectOverlay ${isZoomed || isOverlayHidden ? "projectOverlayHidden" : "projectOverlayVisible"}`}
+              >
                 <button
                   type="button"
                   className="projectOverlayClose"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    hideOverlay()
+                    e.stopPropagation();
+                    hideOverlay();
                   }}
                   aria-label="Закрыть текст"
                 >
@@ -161,7 +167,10 @@ function ProjectCard({
                 <header className="projectHeader projectHeaderOverlay">
                   {content.showTitle && (
                     <div className="projectTitleRow">
-                      <h3 className="projectTitle projectTitleOverlay" id={labelIdMobile}>
+                      <h3
+                        className="projectTitle projectTitleOverlay"
+                        id={labelIdMobile}
+                      >
                         {project.title}
                       </h3>
                       {content.showLinks && project.links?.length ? (
@@ -182,16 +191,25 @@ function ProjectCard({
                     </div>
                   )}
                   {content.showDescription && (
-                    <p className="projectDescription projectDescriptionOverlay">{project.description}</p>
+                    <p className="projectDescription projectDescriptionOverlay">
+                      {project.description}
+                    </p>
                   )}
                   {content.showTeam ? (
-                    <p className="projectTeam projectDescriptionOverlay">{project.team}</p>
-                    ) : null}
+                    <p className="projectTeam projectDescriptionOverlay">
+                      {project.team}
+                    </p>
+                  ) : null}
                   {content.showOutro ? (
-                    <p className="projectDescription projectDescriptionOverlay">{content.outroText}</p>
+                    <p className="projectDescription projectDescriptionOverlay">
+                      {content.outroText}
+                    </p>
                   ) : null}
                   {content.showStack && (
-                    <ul className="chips chipsSm chipsOverlay" aria-label="Стек">
+                    <ul
+                      className="chips chipsSm chipsOverlay"
+                      aria-label="Стек"
+                    >
                       {project.stack.map((st) => (
                         <li key={st}>{st}</li>
                       ))}
@@ -214,7 +232,7 @@ function ProjectCard({
                 </>
               ) : null}
             </article>
-          )
+          );
         })}
       </div>
 
@@ -226,7 +244,10 @@ function ProjectCard({
           <div className="projectOverlay">
             <header className="projectHeader projectHeaderOverlay">
               <div className="projectTitleRow">
-                <h3 className="projectTitle projectTitleOverlay" id={labelIdDesktop}>
+                <h3
+                  className="projectTitle projectTitleOverlay"
+                  id={labelIdDesktop}
+                >
                   {project.title}
                 </h3>
                 {project.links?.length ? (
@@ -245,14 +266,20 @@ function ProjectCard({
                   </div>
                 ) : null}
               </div>
-              <p className="projectDescription projectDescriptionOverlay">{project.description}</p>
+              <p className="projectDescription projectDescriptionOverlay">
+                {project.description}
+              </p>
               {project.team && (
                 <>
-                  <p className="projectTeam projectDescriptionOverlay">{project.team}</p>
+                  <p className="projectTeam projectDescriptionOverlay">
+                    {project.team}
+                  </p>
                 </>
               )}
               {project.outro && (
-                <p className="projectDescription projectDescriptionOverlay">{project.outro}</p>
+                <p className="projectDescription projectDescriptionOverlay">
+                  {project.outro}
+                </p>
               )}
               <ul className="chips chipsSm chipsOverlay" aria-label="Стек">
                 {project.stack.map((st) => (
@@ -265,7 +292,7 @@ function ProjectCard({
           <div className="projectGalleryDesktop" aria-label="Скриншоты">
             <button
               type="button"
-              className={`galleryNav galleryNavPrev ${!isGalleryScrollable ? 'galleryNavHidden' : ''}`}
+              className={`galleryNav galleryNavPrev ${!isGalleryScrollable ? "galleryNavHidden" : ""}`}
               onClick={() => scrollStrip(-1)}
               aria-label="Прокрутить галерею назад"
               tabIndex={isGalleryScrollable ? 0 : -1}
@@ -283,13 +310,18 @@ function ProjectCard({
                   onClick={() => onOpenLightbox(s.src, s.alt, project.title)}
                   aria-label={`Увеличить: ${s.alt}`}
                 >
-                  <img className="galleryThumb" src={s.src} alt="" loading="lazy" />
+                  <img
+                    className="galleryThumb"
+                    src={s.src}
+                    alt=""
+                    loading="lazy"
+                  />
                 </button>
               ))}
             </div>
             <button
               type="button"
-              className={`galleryNav galleryNavNext ${!isGalleryScrollable ? 'galleryNavHidden' : ''}`}
+              className={`galleryNav galleryNavNext ${!isGalleryScrollable ? "galleryNavHidden" : ""}`}
               onClick={() => scrollStrip(1)}
               aria-label="Прокрутить галерею вперёд"
               tabIndex={isGalleryScrollable ? 0 : -1}
@@ -301,7 +333,7 @@ function ProjectCard({
         </div>
       </article>
     </div>
-  )
+  );
 }
 
 export default ProjectCard;

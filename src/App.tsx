@@ -1,10 +1,8 @@
-import './App.css'
-import CVPage from './components/CVPage/CVPage'
-
+import "./App.css";
+import CVPage from "./components/CVPage/CVPage";
 
 function App() {
-  return <CVPage />
+  return <CVPage />;
 }
 
-export default App
-
+export default App;
