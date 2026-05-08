@@ -5,6 +5,7 @@ import p1s3 from "./assets/projects/project-1/screen-3.svg";
 import p2s1 from "./assets/projects/project-2/screen-1.svg";
 import p2s2 from "./assets/projects/project-2/screen-2.svg";
 import p2s3 from "./assets/projects/project-2/screen-3.svg";
+import profilePhoto from "./assets/profile.svg";
 
 export const projects: Project[] = [
   {
@@ -144,3 +145,35 @@ export const projectsHead = {
     },
   ],
 };
+
+export const cvPageHead = {
+  avatar: { src: profilePhoto, alt: "Фото" },
+  name: "Горохов Павел",
+  role: "Frontend / React Native разработчик",
+  summary: "Имею опыт работы в коммерческих проектах, проектах в сфере детского образования, продуктовой-аналитики. Знаком с методологиями Agile, Scrum.",
+  //emailButton: "you@example.com",
+  githubButton: {
+    href: "https://github.com/yourname",
+    label: "Github"
+  },
+  downloadCVButton: {
+    href: "/resume.pdf",
+    label: "📥 Скачать резюме (PDF)"
+  } 
+}
+
+export const skills = {
+  title: "Основные компетенции и навыки:",
+  list: [
+    "Создание и поддержка веб-сайтов и SPA приложений на React/TypeScript.",
+    "Участие в разработке дизайн-системы React-компонентов.",
+    "Разработка клиентской части на next.js.",
+    "Использование в клиентской части Redux.",
+    'Создание с "0" приложений на React native, поддержка и реконструкция, верстка, роутинг, взаимодействие с бэкендом.',
+    "Взаимодействие с бэкендом с использованием REST API, GraphQL, WebSocket.",
+    "Улучшение функциональности действующих продуктов посредством рефакторинга кода.",
+    "Оптимизация, баг-фиксинг.",
+    "Портирование React native приложений на iOS и android, cоздание с 0 до выпуска приложений.",
+    "Использование нейросетей, в том числе локальных моделей, для ускорения написания кода."
+  ]
+}

@@ -1,137 +1,3 @@
-.page {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  padding: 18px 16px 28px;
-  box-sizing: border-box;
-}
-
-.header {
-  padding-top: 8px;
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: 112px 1fr;
-  gap: 14px;
-  align-items: start;
-}
-
-.avatar {
-  width: 112px;
-  height: 112px;
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  background: var(--card-bg);
-  box-shadow: var(--shadow);
-  cursor: pointer;
-}
-
-.heroText {
-  min-width: 0;
-}
-
-.name {
-  margin: 0;
-  font-size: 28px;
-  letter-spacing: -0.6px;
-}
-
-.role {
-  margin-top: 6px;
-  color: var(--text);
-}
-
-.summary {
-  margin-top: 10px;
-  color: var(--text);
-}
-
-.ctaRow {
-  margin-top: 14px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.link:hover {
-  box-shadow: var(--shadow);
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--accent-border);
-  background: var(--accent-bg);
-  color: var(--text-h);
-  text-decoration: none;
-  font-size: 15px;
-  line-height: 1;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.button:hover {
-  box-shadow: var(--shadow);
-}
-
-.button:active {
-  transform: translateY(1px);
-}
-
-.button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.button.ghost {
-  background: transparent;
-  border-color: var(--border);
-}
-
-.resume {
-  background: var(--accent-bg);
-  color: var(--text-h);
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.2s ease;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.resume::after {
-  content: "\2009";
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.section {
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--card-bg);
-}
-
-.sectionHeader {
-  display: grid;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
 .chips {
   list-style: none;
   padding: 0;
@@ -155,38 +21,11 @@
   font-size: 13px;
 }
 
-.muted {
-  color: var(--text);
-  opacity: 0.85;
-}
-
-.projectsGrid {
-  display: grid;
-  gap: 14px;
-}
-
 .projectCardWrap {
   display: contents;
 }
 
-@media (max-width: 719px) {
-  .section.sectionProjects {
-    padding-left: 0;
-    padding-right: 0;
-    border-radius: 0;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    background: transparent;
-  }
 
-  .sectionProjects .sectionHeader {
-    padding: 0 16px 14px;
-  }
-
-  .sectionProjects .projectsGrid {
-    gap: 0;
-  }
-}
 
 .projectCard {
   border: 1px solid var(--border);
@@ -438,7 +277,7 @@
     border-radius: 0;
   }
 
-  html.zoomed .projectSlidesMobile {
+  html:global(.zoomed) .projectSlidesMobile {
     scroll-snap-type: none;
     overflow-y: visible;
     height: auto;
@@ -446,7 +285,7 @@
     min-height: unset;
   }
 
-  html.zoomed .projectSlide {
+  html:global(.zoomed) .projectSlide {
     min-height: unset;
     height: auto;
     max-height: none;
@@ -470,25 +309,15 @@
 }
 
 .galleryNav {
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(0, 0, 0, 0.35);
-  color: rgba(255, 255, 255, 0.92);
   border-radius: 999px;
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding-bottom: 10px;
-  transition:
-    transform 0.12s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+  padding-bottom: 19px;
 }
 
 .galleryNav:hover {
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--accent-bg-2)
 }
 
 .galleryNav:active {
@@ -500,90 +329,6 @@
   outline-offset: 2px;
 }
 
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background: rgba(0, 0, 0, 0.78);
-  display: grid;
-  place-items: center;
-  padding: 18px;
-}
-
-.lightboxInner {
-  width: min(1100px, 100%);
-  max-height: 92svh;
-  position: relative;
-  display: grid;
-  place-items: center;
-}
-
-.lightboxImg {
-  max-width: 100%;
-  max-height: 92svh;
-  border-radius: 18px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.lightboxClose {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(0, 0, 0, 0.55);
-  color: rgba(255, 255, 255, 0.92);
-  cursor: pointer;
-}
-
-.footer {
-  padding: 6px 4px 0;
-  position: relative;
-}
-
-.scrollToTop {
-  position: absolute;
-  right: 0;
-  top: calc(50% - 17px);
-  width: auto;
-  height: auto;
-  border-radius: 12px;
-  border: 1px solid var(--accent-border);
-  background: var(--accent-bg);
-  color: var(--text-h);
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-  z-index: 10;
-}
-
-.scrollToTop:hover {
-  box-shadow: var(--shadow);
-}
-
-.scrollToTop:active {
-  transform: translateY(1px);
-}
-
-.scrollToTop:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.scrollToTop.hidden {
-  display: none;
-}
-
 @media (min-width: 720px) {
   .projectSlidesMobile {
     display: none;
@@ -591,31 +336,6 @@
 
   .projectCardDesktop {
     display: block !important;
-  }
-
-  .page {
-    padding: 28px 22px 40px;
-    gap: 26px;
-  }
-
-  .hero {
-    grid-template-columns: 140px 1fr;
-    gap: 18px;
-  }
-
-  .avatar {
-    width: 140px;
-    height: 140px;
-    border-radius: 18px;
-  }
-
-  .name {
-    font-size: 40px;
-  }
-
-  .projectsGrid {
-    grid-template-columns: 1fr;
-    gap: 16px;
   }
 
   .projectCardDesktop.projectCardHero {
@@ -672,9 +392,6 @@
   }
 
   .galleryNav {
-    border: 1px solid var(--accent-border);
-    background: var(--card-bg);
-    color: var(--accent-border);
     width: 52px;
     height: 52px;
     font-size: 2.35rem;
@@ -691,10 +408,6 @@
     border: 0;
     margin: 0;
     overflow: hidden;
-  }
-
-  .galleryNav:hover {
-    background: rgba(0, 0, 0, 0.06);
   }
 
   .galleryNav:focus-visible {
@@ -759,15 +472,5 @@
     height: 100%;
     display: block;
     object-fit: cover;
-  }
-}
-
-@media (min-width: 1100px) {
-  .page {
-    padding: 36px 28px 52px;
-  }
-
-  .projectsGrid {
-    grid-template-columns: 1fr;
   }
 }

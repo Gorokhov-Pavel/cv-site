@@ -1,7 +1,8 @@
 import { useState } from "react";
-import "./CVPage.css";
-import profilePhoto from "../../assets/profile.svg";
+import styles from "./CVPage.module.css";
 import { Projects } from "../Projects/Projects.tsx";
+import { cvPageHead, skills } from "../../data.ts";
+import clsx from "clsx";
 
 type LightboxState =
   | { isOpen: false }
@@ -32,93 +33,66 @@ function CVPage() {
   }
 
   return (
-    <div className="cv-page">
-      <header className="header">
-        <div className="hero">
+    <div className={styles['cv-page']}>
+      <header className={styles.header}>
+        <div className={styles.hero}>
           <img
-            className="avatar"
-            src={profilePhoto}
+            className={styles.avatar}
+            src={cvPageHead.avatar.src}
             width={112}
             height={112}
-            alt="Фото"
-            onClick={() => openLightbox(profilePhoto, "Фото", "Фото")}
+            alt={cvPageHead.avatar.alt}
+            onClick={() => openLightbox(cvPageHead.avatar.src, cvPageHead.avatar.alt, cvPageHead.avatar.alt)}
           />
-          <div className="heroText">
-            <h1 className="name">Горохов Павел</h1>
-            <p className="role">Frontend / React Native разработчик</p>
-            <p className="summary">
-              Имею опыт работы в коммерческих проектах, проектах в сфере
-              детского образования, продуктовой-аналитики. Знаком с
-              методологиями Agile, Scrum.
+          <div className={styles.heroText}>
+            <h1 className={styles.name}>{cvPageHead.name}</h1>
+            <p className={styles.role}>{cvPageHead.role}</p>
+            <p className={styles.summary}>
+              {cvPageHead.summary}
             </p>
-            <div className="ctaRow">
+            <div className={styles.ctaRow}>
               {/*<a className="button" href="mailto:you@example.com">
-                you@example.com
+                {cvPageHead.}
               </a>*/}
               <a
-                className="button ghost"
-                href="https://github.com/yourname"
+                className={clsx('button', styles.ghost)}
+                href={cvPageHead.githubButton.href}
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub
+                {cvPageHead.githubButton.label}
               </a>
-              <a className="button resume" href="/resume.pdf" download>
-                📥 Скачать резюме (PDF)
+              <a className="button" href={cvPageHead.downloadCVButton.href} download>
+                {cvPageHead.downloadCVButton.label}
               </a>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="main">
+      <main className={styles.main}>
         <section className="section" aria-labelledby="skills-title">
-          <h2 id="skills-title">Основные компетенции и навыки:</h2>
-          <ul className="skills-list">
-            <li>
-              Создание и поддержка веб-сайтов и SPA приложений на
-              React/TypeScript.
-            </li>
-            <li>Участие в разработке дизайн-системы React-компонентов.</li>
-            <li>Разработка клиентской части на next.js.</li>
-            <li>Использование в клиентской части Redux.</li>
-            <li>
-              Создание с "0" приложений на React native, поддержка и
-              реконструкция, верстка, роутинг, взаимодействие с бэкендом.
-            </li>
-            <li>
-              Взаимодействие с бэкендом с использованием REST API, GraphQL,
-              WebSocket.
-            </li>
-            <li>
-              Улучшение функциональности действующих продуктов посредством
-              рефакторинга кода.
-            </li>
-            <li>Оптимизация, баг-фиксинг.</li>
-            <li>
-              Портирование React native приложений на iOS и android, cоздание с
-              0 до выпуска приложений.
-            </li>
-            <li>
-              Использование нейросетей, в том числе локальных моделей, для
-              ускорения написания кода.
-            </li>
+          <h2 id="skills-title">{skills.title}</h2>
+          <ul className={styles['skills-list']}>
+            {skills.list.map(li => (
+              <li>{li}</li>
+            ))}
           </ul>
         </section>
 
         <Projects openLightbox={openLightbox} />
       </main>
 
-      <footer className="footer">
-        <p className="muted">© {new Date().getFullYear()} Имя Фамилия</p>
+      <footer className={styles.footer}>
+        <p className="muted">{"© 2026 " + cvPageHead.name}</p>
         <button
           type="button"
-          className={`scrollToTop ${showScrollButton ? "" : "hidden"}`}
+          className={`${styles.scrollToTop} ${showScrollButton ? "" : styles.hidden}`}
           onClick={scrollToTop}
           aria-label="Наверх"
         >
-          <span className="scrollToTopText">Наверх</span>
-          <span className="scrollToTopIcon">↑</span>
+          <span className={styles.scrollToTopText}>Наверх</span>
+          <span className={styles.scrollToTopIcon}>↑</span>
         </button>
       </footer>
 

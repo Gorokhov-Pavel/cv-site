@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import ProjectCard from "../ProjectCard/ProjectCard";
 import { projects, projectsHead } from "../../data";
+import styles from "./Projects.module.css";
+import clsx from "clsx";
 
 export function Projects({
   openLightbox,
@@ -11,10 +13,6 @@ export function Projects({
   const firstProjectSlideRef = useRef<HTMLElement>(null);
   const snapEngagedRef = useRef(false);
   const [isZoomed, setIsZoomed] = useState(false);
-
-  /* dangerouslySetInnerHTML={{__html: d.insideLinks.reduce((t, il) => t.split(il.label).join(
-                `<a className="link" href="${il.href}">${il.label}</a>`
-              ), d.text)}}*/
 
   useEffect(() => {
     const SNAP = "snapProjects";
@@ -84,10 +82,10 @@ export function Projects({
   return (
     <section
       ref={sectionRef}
-      className="section sectionProjects"
+      className={clsx('section', styles.sectionProjects)}
       aria-labelledby="projects-title"
     >
-      <div className="sectionHeader">
+      <div className={styles.sectionHeader}>
         <h2 id="projects-title">{projectsHead.title}</h2>
         {projectsHead.descriptions.map((d) => (
           <p className="muted">
@@ -104,7 +102,7 @@ export function Projects({
                 } else {
                   return (
                     <a
-                      className="link"
+                      className={styles.link}
                       href={d.insideLinks.find((il) => il.label === st)?.href}
                     >
                       {st}
@@ -116,7 +114,7 @@ export function Projects({
         ))}
       </div>
 
-      <div className="projectsGrid">
+      <div className={styles.projectsGrid}>
         {projects.map((p, i) => (
           <ProjectCard
             key={p.title}
