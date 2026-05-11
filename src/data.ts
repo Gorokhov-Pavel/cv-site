@@ -38,7 +38,7 @@ export const projects: Project[] = [
       { label: "sportbaza.moswkf.ru", href: "https://sportbaza.moswkf.ru" },
     ],
     screenshots: [
-      { src: sb1, alt: "Экран 1" },
+      { src: sb1, alt: "Экран 1", isDesktop: true },
       { src: sb2, alt: "Экран 2" },
       { src: sb3, alt: "Экран 3" },
     ],
@@ -156,7 +156,7 @@ export const projects: Project[] = [
     //outro: '',
     stack: ["React", "TypeScript", "scss", "Chart.js"],
     screenshots: [
-      { src: sp1, alt: "Экран 1" },
+      { src: sp1, alt: "Экран 1", isDesktop: true },
     ],
   },
 ];
