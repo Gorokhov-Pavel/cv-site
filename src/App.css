@@ -48,7 +48,7 @@
 }
 
 
-.entered {
+html body .entered {
   /*transform: scaleY(calc(100vh / (19.5 / 9 * 100vw)));*/
   min-height: 100dvh;
   height: 100dvh;

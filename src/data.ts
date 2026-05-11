@@ -26,7 +26,7 @@ import sb1 from "./assets/projects/sportbaza/5192813051294456074.jpg"
 import sb2 from "./assets/projects/sportbaza/5192813051294456075.jpg"
 import sb3 from "./assets/projects/sportbaza/5192813051294456076.jpg"
 
-import profilePhoto from "./assets/profile.svg";
+import profilePhoto from "./assets/profile.jpg";
 
 export const projects: Project[] = [
   {

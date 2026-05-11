@@ -100,8 +100,18 @@ function ProjectCard({
   }, []);
 
   // Helper to get content for each mobile slide
-  function getMobileSlideContent(slideIndex: number) {
+  function getMobileSlideContent(slideIndex: number, slidesLength: number) {
     if (slideIndex === 0) {
+      if (slidesLength === 1) {
+        return {
+          showTitle: true,
+          showLinks: true,
+          showDescription: true,
+          showTeam: true,
+          showStack: true,
+          showOutro: true,
+        };
+      }
       return {
         showTitle: true,
         showLinks: true,
@@ -111,6 +121,16 @@ function ProjectCard({
         showOutro: false,
       };
     } else if (slideIndex === 1) {
+      if (slidesLength === 2) {
+        return {
+          showTitle: true,
+          showLinks: false,
+          showDescription: false,
+          showTeam: true,
+          showStack: true,
+          showOutro: true,
+        };
+      }
       return {
         showTitle: true,
         showLinks: false,
@@ -163,7 +183,7 @@ function ProjectCard({
     <div className={styles.projectCardWrap}>
       <div className={styles.projectSlidesMobile}>
         {project.screenshots.map((s, i) => {
-          const content = getMobileSlideContent(i);
+          const content = getMobileSlideContent(i, project.screenshots.length);
 
           return (
             <article

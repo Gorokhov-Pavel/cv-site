@@ -109,7 +109,7 @@ export function Projects({
       threshold: 0.4
     });
 
-    const items = document.querySelectorAll('.' + styles.projectsGrid + ' article:first-of-type');
+    const items = document.querySelectorAll('.' + styles.projectsGrid + ' article');
     items.forEach((item) => observer.observe(item));
 
   }, [])
