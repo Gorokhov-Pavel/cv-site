@@ -187,11 +187,11 @@ export const cvPageHead = {
   summary: "Имею опыт работы в коммерческих проектах, проектах в сфере детского образования, продуктовой-аналитики. Знаком с методологиями Agile, Scrum.",
   //emailButton: "you@example.com",
   githubButton: {
-    href: "https://github.com/yourname",
+    href: "https://github.com/Gorokhov-Pavel",
     label: "Github"
   },
   downloadCVButton: {
-    href: "/resume.pdf",
+    href: "/cv-site/assets/CV.docx",
     label: "📥 Скачать резюме (PDF)"
   } 
 }
