@@ -17,7 +17,10 @@ import fz3 from "./assets/projects/fizzio/IMG_0018.png";
 import fz4 from "./assets/projects/fizzio/IMG_0017.png";
 import fz5 from "./assets/projects/fizzio/IMG_0016.png";
 import bz1 from "./assets/projects/bliznetsy/5188446710231929852.jpg"
-import bz2 from "./assets/projects/bliznetsy/IMG_0010.png"
+import bz2 from "./assets/projects/bliznetsy/5192813051294456108.jpg"
+import bz3 from "./assets/projects/bliznetsy/5192813051294456109.jpg"
+import bz4 from "./assets/projects/bliznetsy/5192813051294456110.jpg"
+import bz5 from "./assets/projects/bliznetsy/5192813051294456111.jpg"
 import sp1 from "./assets/projects/socialprofiler/5192813051294456077.jpg"
 import sb1 from "./assets/projects/sportbaza/5192813051294456074.jpg"
 import sb2 from "./assets/projects/sportbaza/5192813051294456075.jpg"
@@ -121,8 +124,9 @@ export const projects: Project[] = [
     screenshots: [
       { src: bz1, alt: "Экран 1" },
       { src: bz2, alt: "Экран 2" },
-      //{ src: bz3, alt: "Экран 3" },
-      //{ src: bz4, alt: "Экран 4" },
+      { src: bz3, alt: "Экран 3" },
+      { src: bz4, alt: "Экран 4" },
+      { src: bz5, alt: "Экран 5" },
     ],
   },
   {
