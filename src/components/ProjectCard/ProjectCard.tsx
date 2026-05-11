@@ -140,7 +140,7 @@ function ProjectCard({
 
   const [stripScrollInEnd, setStripScrollInEnd] = useState(true);
 
-  function stripScrollFunc(e: HTMLElementEventMap["scroll"]) {
+  function stripScrollFunc() {
     setStripScrollInEnd(
       (stripRef.current?.scrollLeft !== undefined &&
         stripRef.current.scrollLeft < 3) ||

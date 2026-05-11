@@ -1,23 +1,23 @@
 import type { Project } from "./components/ProjectCard/ProjectCard";
 import hs1 from "./assets/projects/humansignals/5458651379221514507.jpg";
 import hs2 from "./assets/projects/humansignals/5474463163882784866.jpg";
-import sn1 from "./assets/projects/stroynee/IMG_6473.PNG";
-import sn2 from "./assets/projects/stroynee/IMG_6471.PNG";
-import sn3 from "./assets/projects/stroynee/IMG_6470.PNG";
-import sn4 from "./assets/projects/stroynee/IMG_6469.PNG";
-import sn5 from "./assets/projects/stroynee/IMG_6468.PNG";
-import sn6 from "./assets/projects/stroynee/IMG_0024.PNG";
-import sn7 from "./assets/projects/stroynee/IMG_0023.PNG";
-import sn8 from "./assets/projects/stroynee/IMG_0022.PNG";
-import sn9 from "./assets/projects/stroynee/IMG_0021.PNG";
-import sn10 from "./assets/projects/stroynee/IMG_0007 2.PNG";
+import sn1 from "./assets/projects/stroynee/IMG_6473.png";
+import sn2 from "./assets/projects/stroynee/IMG_6471.png";
+import sn3 from "./assets/projects/stroynee/IMG_6470.png";
+import sn4 from "./assets/projects/stroynee/IMG_6469.png";
+import sn5 from "./assets/projects/stroynee/IMG_6468.png";
+import sn6 from "./assets/projects/stroynee/IMG_0024.png";
+import sn7 from "./assets/projects/stroynee/IMG_0023.png";
+import sn8 from "./assets/projects/stroynee/IMG_0022.png";
+import sn9 from "./assets/projects/stroynee/IMG_0021.png";
+import sn10 from "./assets/projects/stroynee/IMG_0007 2.png";
 import fz1 from "./assets/projects/fizzio/5188446710231929847.jpg";
 import fz2 from "./assets/projects/fizzio/5188446710231929851.jpg";
-import fz3 from "./assets/projects/fizzio/IMG_0018.PNG";
-import fz4 from "./assets/projects/fizzio/IMG_0017.PNG";
-import fz5 from "./assets/projects/fizzio/IMG_0016.PNG";
+import fz3 from "./assets/projects/fizzio/IMG_0018.png";
+import fz4 from "./assets/projects/fizzio/IMG_0017.png";
+import fz5 from "./assets/projects/fizzio/IMG_0016.png";
 import bz1 from "./assets/projects/bliznetsy/5188446710231929852.jpg"
-import bz2 from "./assets/projects/bliznetsy/IMG_0010.PNG"
+import bz2 from "./assets/projects/bliznetsy/IMG_0010.png"
 
 import profilePhoto from "./assets/profile.svg";
 
