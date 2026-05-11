@@ -3,6 +3,7 @@ import styles from "./CVPage.module.css";
 import { Projects } from "../Projects/Projects.tsx";
 import { cvPageHead, skills } from "../../data.ts";
 import clsx from "clsx";
+import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
 type LightboxState =
   | { isOpen: false }
@@ -55,7 +56,7 @@ function CVPage() {
                 {cvPageHead.}
               </a>*/}
               <a
-                className={clsx('button', styles.ghost)}
+                className={clsx('button', 'ghost')}
                 href={cvPageHead.githubButton.href}
                 target="_blank"
                 rel="noreferrer"
@@ -68,6 +69,7 @@ function CVPage() {
             </div>
           </div>
         </div>
+        <ThemeSwitcher />
       </header>
 
       <main className={styles.main}>
@@ -75,7 +77,7 @@ function CVPage() {
           <h2 id="skills-title">{skills.title}</h2>
           <ul className={styles['skills-list']}>
             {skills.list.map(li => (
-              <li>{li}</li>
+              <li key={li}>{li}</li>
             ))}
           </ul>
         </section>
@@ -87,7 +89,7 @@ function CVPage() {
         <p className="muted">{"© 2026 " + cvPageHead.name}</p>
         <button
           type="button"
-          className={`${styles.scrollToTop} ${showScrollButton ? "" : styles.hidden}`}
+          className={`button ${styles.scrollToTop} ${showScrollButton ? "" : styles.hidden}`}
           onClick={scrollToTop}
           aria-label="Наверх"
         >
@@ -98,23 +100,26 @@ function CVPage() {
 
       {lightbox.isOpen ? (
         <div
-          className="lightbox"
+          className={styles.lightbox}
           role="dialog"
           aria-modal="true"
           //aria-label={`Скриншот проекта: ${lightbox.title}`}
           onClick={closeLightbox}
         >
-          <div className="lightboxInner" onClick={(e) => e.stopPropagation()}>
+          <div className={styles.lightboxInner} onClick={(e) => {
+            e.stopPropagation();
+            closeLightbox();
+          }}>
             <button
               type="button"
-              className="lightboxClose"
-              onClick={closeLightbox}
+              className={styles.lightboxClose}
+              //onClick={closeLightbox}
               aria-label="Закрыть"
             >
               ✕
             </button>
             <img
-              className="lightboxImg"
+              className={styles.lightboxImg}
               src={lightbox.src}
               alt={lightbox.alt}
             />
@@ -126,3 +131,5 @@ function CVPage() {
 }
 
 export default CVPage;
+
+

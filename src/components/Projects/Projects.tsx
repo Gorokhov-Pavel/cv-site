@@ -13,6 +13,7 @@ export function Projects({
   const firstProjectSlideRef = useRef<HTMLElement>(null);
   const snapEngagedRef = useRef(false);
   const [isZoomed, setIsZoomed] = useState(false);
+  const debouncedAfterResize = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const SNAP = "snapProjects";
@@ -24,7 +25,7 @@ export function Projects({
       root.classList.remove(SNAP);
     }
 
-    function updateSnap() {
+    function updateSnapHandleResize(e?: {type: string}) {
       if (!mq.matches) {
         clearSnap();
         return;
@@ -45,8 +46,7 @@ export function Projects({
       }
 
       const sectionRect = section.getBoundingClientRect();
-      //console.log('Section rect:', sectionRect)
-      const inProjectsSection = sectionRect.bottom > vh && sectionRect.top < 0;
+      const inProjectsSection = sectionRect.bottom >= vh && sectionRect.top <= 0;
 
       if (!inProjectsSection || zoomed) {
         clearSnap();
@@ -54,30 +54,64 @@ export function Projects({
       }
 
       root.classList.add(SNAP);
+
+      if (mq.matches && !isZoomed && e?.type !== 'scroll') {
+        const section = sectionRef.current;
+        if (section) {
+          debouncedAfterResize.current = setTimeout(() => {
+            const itemHeight = window.innerHeight; 
+            const section = sectionRef.current;
+            const sectionRect = section?.getBoundingClientRect();
+            const inProjectsSection = sectionRect && sectionRect.bottom >= itemHeight && sectionRect.top <= 0;
+            inProjectsSection && document.querySelector('.entered')?.scrollIntoView({block: 'start', behavior: 'smooth'});
+          }, 300);
+        }
+      }
     }
 
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length === 2) {
-        updateSnap();
+        updateSnapHandleResize();
+      } else if (e.touches.length === 1) {
+        updateSnapHandleResize({type: 'touchmove'});
       }
     };
 
-    updateSnap();
-    window.addEventListener("scroll", updateSnap, { passive: true });
-    window.addEventListener("resize", updateSnap);
-    window.visualViewport?.addEventListener("resize", updateSnap);
+    updateSnapHandleResize();
+    window.addEventListener("scroll", updateSnapHandleResize, { passive: true });
+    window.addEventListener("resize", updateSnapHandleResize);
+    window.visualViewport?.addEventListener("resize", updateSnapHandleResize);
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    mq.addEventListener("change", updateSnap);
+    mq.addEventListener("change", updateSnapHandleResize);
 
     return () => {
-      window.removeEventListener("scroll", updateSnap);
-      window.removeEventListener("resize", updateSnap);
-      window.visualViewport?.removeEventListener("resize", updateSnap);
+      window.removeEventListener("scroll", updateSnapHandleResize);
+      window.removeEventListener("resize", updateSnapHandleResize);
+      window.visualViewport?.removeEventListener("resize", updateSnapHandleResize);
       window.removeEventListener("touchmove", handleTouchMove);
-      mq.removeEventListener("change", updateSnap);
+      mq.removeEventListener("change", updateSnapHandleResize);
       clearSnap();
     };
-  }, []);
+  }, [isZoomed]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log("entry.target", entry.target);
+          entry.target.classList.add('entered');
+        } else {
+          entry.target.classList.remove('entered');
+        }
+      });
+    }, {
+      threshold: 0.4
+    });
+
+    const items = document.querySelectorAll('.' + styles.projectsGrid + ' article');
+    items.forEach((item) => observer.observe(item));
+
+  }, [])
 
   return (
     <section
@@ -88,7 +122,7 @@ export function Projects({
       <div className={styles.sectionHeader}>
         <h2 id="projects-title">{projectsHead.title}</h2>
         {projectsHead.descriptions.map((d) => (
-          <p className="muted">
+          <p className="muted" key={d.text}>
             {d.text
               .split(
                 new RegExp(
@@ -104,6 +138,7 @@ export function Projects({
                     <a
                       className={styles.link}
                       href={d.insideLinks.find((il) => il.label === st)?.href}
+                      key={i}
                     >
                       {st}
                     </a>

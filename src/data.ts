@@ -1,10 +1,24 @@
 import type { Project } from "./components/ProjectCard/ProjectCard";
-import p1s1 from "./assets/projects/project-1/screen-1.svg";
-import p1s2 from "./assets/projects/project-1/screen-2.svg";
-import p1s3 from "./assets/projects/project-1/screen-3.svg";
-import p2s1 from "./assets/projects/project-2/screen-1.svg";
-import p2s2 from "./assets/projects/project-2/screen-2.svg";
-import p2s3 from "./assets/projects/project-2/screen-3.svg";
+import hs1 from "./assets/projects/humansignals/5458651379221514507.jpg";
+import hs2 from "./assets/projects/humansignals/5474463163882784866.jpg";
+import sn1 from "./assets/projects/stroynee/IMG_6473.PNG";
+import sn2 from "./assets/projects/stroynee/IMG_6471.PNG";
+import sn3 from "./assets/projects/stroynee/IMG_6470.PNG";
+import sn4 from "./assets/projects/stroynee/IMG_6469.PNG";
+import sn5 from "./assets/projects/stroynee/IMG_6468.PNG";
+import sn6 from "./assets/projects/stroynee/IMG_0024.PNG";
+import sn7 from "./assets/projects/stroynee/IMG_0023.PNG";
+import sn8 from "./assets/projects/stroynee/IMG_0022.PNG";
+import sn9 from "./assets/projects/stroynee/IMG_0021.PNG";
+import sn10 from "./assets/projects/stroynee/IMG_0007 2.PNG";
+import fz1 from "./assets/projects/fizzio/5188446710231929847.jpg";
+import fz2 from "./assets/projects/fizzio/5188446710231929851.jpg";
+import fz3 from "./assets/projects/fizzio/IMG_0018.PNG";
+import fz4 from "./assets/projects/fizzio/IMG_0017.PNG";
+import fz5 from "./assets/projects/fizzio/IMG_0016.PNG";
+import bz1 from "./assets/projects/bliznetsy/5188446710231929852.jpg"
+import bz2 from "./assets/projects/bliznetsy/IMG_0010.PNG"
+
 import profilePhoto from "./assets/profile.svg";
 
 export const projects: Project[] = [
@@ -20,10 +34,7 @@ export const projects: Project[] = [
       { label: "sportbaza.moswkf.ru", href: "https://sportbaza.moswkf.ru" },
     ],
     screenshots: [
-      { src: p1s1, alt: "Экран 1" },
-      { src: p1s2, alt: "Экран 2" },
-      { src: p1s3, alt: "Экран 3" },
-      { src: p1s3, alt: "Экран 4" },
+      
     ],
   },
   {
@@ -45,9 +56,16 @@ export const projects: Project[] = [
       },
     ],
     screenshots: [
-      { src: p2s1, alt: "Экран 1" },
-      { src: p2s2, alt: "Экран 2" },
-      { src: p2s3, alt: "Экран 3" },
+      { src: sn1, alt: "Экран 1" },
+      { src: sn2, alt: "Экран 2" },
+      { src: sn3, alt: "Экран 3" },
+      { src: sn4, alt: "Экран 4" },
+      { src: sn5, alt: "Экран 5" },
+      { src: sn6, alt: "Экран 6" },
+      { src: sn7, alt: "Экран 7" },
+      { src: sn8, alt: "Экран 8" },
+      { src: sn9, alt: "Экран 9" },
+      { src: sn10, alt: "Экран 10" },
     ],
   },
   {
@@ -69,10 +87,11 @@ export const projects: Project[] = [
       },
     ],
     screenshots: [
-      { src: p1s1, alt: "Экран 1" },
-      { src: p1s2, alt: "Экран 2" },
-      { src: p1s3, alt: "Экран 3" },
-      { src: p1s3, alt: "Экран 4" },
+      { src: fz1, alt: "Экран 1" },
+      { src: fz2, alt: "Экран 2" },
+      { src: fz3, alt: "Экран 3" },
+      { src: fz4, alt: "Экран 4" },
+      { src: fz5, alt: "Экран 5" },
     ],
   },
   {
@@ -94,10 +113,10 @@ export const projects: Project[] = [
       },
     ],
     screenshots: [
-      { src: p1s1, alt: "Экран 1" },
-      { src: p1s2, alt: "Экран 2" },
-      { src: p1s3, alt: "Экран 3" },
-      { src: p1s3, alt: "Экран 4" },
+      { src: bz1, alt: "Экран 1" },
+      { src: bz2, alt: "Экран 2" },
+      //{ src: bz3, alt: "Экран 3" },
+      //{ src: bz4, alt: "Экран 4" },
     ],
   },
   {
@@ -118,7 +137,10 @@ export const projects: Project[] = [
       "Webpack",
       "masonry layout",
     ],
-    screenshots: [],
+    screenshots: [
+      { src: hs1, alt: "Экран 1", isDesktop: true },
+      { src: hs2, alt: "Экран 2", isDesktop: true },
+    ],
   },
   {
     title: "SocialProfiler",

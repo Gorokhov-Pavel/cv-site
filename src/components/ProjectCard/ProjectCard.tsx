@@ -9,7 +9,7 @@ export type Project = {
   outro?: string;
   stack: string[];
   links?: Array<{ label: string; href: string }>;
-  screenshots: Array<{ src: string; alt: string }>;
+  screenshots: Array<{ src: string; alt: string; isDesktop?: boolean }>;
 };
 
 function ProjectCard({
@@ -38,7 +38,9 @@ function ProjectCard({
     if (!el) return;
 
     const parent = el.parentElement;
-    const navButton = parent?.querySelector<HTMLButtonElement>('.' + styles.galleryNav);
+    const navButton = parent?.querySelector<HTMLButtonElement>(
+      "." + styles.galleryNav,
+    );
     const navWidth = navButton?.clientWidth ?? 52;
     const navGap = 12;
 
@@ -136,6 +138,27 @@ function ProjectCard({
     }
   }
 
+  const [stripScrollInEnd, setStripScrollInEnd] = useState(true);
+
+  function stripScrollFunc(e: HTMLElementEventMap["scroll"]) {
+    setStripScrollInEnd(
+      (stripRef.current?.scrollLeft !== undefined &&
+        stripRef.current.scrollLeft < 3) ||
+        (stripRef.current?.scrollLeft !== undefined &&
+          stripRef.current?.scrollWidth !== undefined &&
+          stripRef.current?.clientWidth !== undefined &&
+          stripRef.current.scrollWidth - stripRef.current.scrollLeft <
+            stripRef.current.clientWidth + 3),
+    );
+  }
+
+  useEffect(() => {
+    stripRef.current?.addEventListener("scroll", stripScrollFunc);
+    return () => {
+      stripRef.current?.removeEventListener("scroll", stripScrollFunc);
+    };
+  }, []);
+
   return (
     <div className={styles.projectCardWrap}>
       <div className={styles.projectSlidesMobile}>
@@ -146,7 +169,7 @@ function ProjectCard({
             <article
               key={`${project.title}-m-${i}`}
               ref={i === 0 ? firstSlideRef : undefined}
-              className={`${styles.projectSlide} ${i === 0 ? styles.projectSlideFirst : ""} ${isZoomed ? styles.projectSlideZoomed : ""}`}
+              className={`${styles.projectSlide} ${i === 0 ? styles.projectSlideFirst : ""} ${isZoomed ? styles.projectSlideZoomed : ""} ${s.isDesktop ? styles.projectSlideDesktopScreenshot : ""}`}
               style={{ backgroundImage: `url(${s.src})` }}
               aria-labelledby={i === 0 ? labelIdMobile : undefined}
             >
@@ -166,11 +189,19 @@ function ProjectCard({
                 >
                   ✕
                 </button>
-                <header className={clsx(styles.projectHeader, styles.projectHeaderOverlay)}>
+                <header
+                  className={clsx(
+                    styles.projectHeader,
+                    styles.projectHeaderOverlay,
+                  )}
+                >
                   {content.showTitle && (
                     <div className={styles.projectTitleRow}>
                       <h3
-                        className={clsx(styles.projectTitle, styles.projectTitleOverlay)}
+                        className={clsx(
+                          styles.projectTitle,
+                          styles.projectTitleOverlay,
+                        )}
                         id={labelIdMobile}
                       >
                         {project.title}
@@ -180,7 +211,10 @@ function ProjectCard({
                           {project.links.map((l) => (
                             <a
                               key={l.href}
-                              className={clsx(styles.projectLink, styles.projectLinkOverlay)}
+                              className={clsx(
+                                styles.projectLink,
+                                styles.projectLinkOverlay,
+                              )}
                               href={l.href}
                               target="_blank"
                               rel="noreferrer"
@@ -193,23 +227,42 @@ function ProjectCard({
                     </div>
                   )}
                   {content.showDescription && (
-                    <p className={clsx(styles.projectDescription, styles.projectDescriptionOverlay)}>
+                    <p
+                      className={clsx(
+                        styles.projectDescription,
+                        styles.projectDescriptionOverlay,
+                      )}
+                    >
                       {project.description}
                     </p>
                   )}
                   {content.showTeam ? (
-                    <p className={clsx(styles.projectTeam, styles.projectDescriptionOverlay)}>
+                    <p
+                      className={clsx(
+                        styles.projectTeam,
+                        styles.projectDescriptionOverlay,
+                      )}
+                    >
                       {project.team}
                     </p>
                   ) : null}
                   {content.showOutro ? (
-                    <p className={clsx(styles.projectDescription, styles.projectDescriptionOverlay)}>
+                    <p
+                      className={clsx(
+                        styles.projectDescription,
+                        styles.projectDescriptionOverlay,
+                      )}
+                    >
                       {content.outroText}
                     </p>
                   ) : null}
                   {content.showStack && (
                     <ul
-                      className={clsx(styles.chips, styles.chipsSm, styles.chipsOverlay)}
+                      className={clsx(
+                        styles.chips,
+                        styles.chipsSm,
+                        styles.chipsOverlay,
+                      )}
                       aria-label="Стек"
                     >
                       {project.stack.map((st) => (
@@ -228,7 +281,10 @@ function ProjectCard({
                     aria-label={`Увеличить: ${s.alt}`}
                     onClick={() => onOpenLightbox(s.src, s.alt, project.title)}
                   />
-                  <div className={styles.projectSlideCaptionBar} aria-hidden="true">
+                  <div
+                    className={styles.projectSlideCaptionBar}
+                    aria-hidden="true"
+                  >
                     <span className={styles.projectSlideCaption}>{s.alt}</span>
                   </div>
                 </>
@@ -239,15 +295,27 @@ function ProjectCard({
       </div>
 
       <article
-        className={clsx(styles.projectCard, styles.projectCardHero, styles.projectCardDesktop)}
+        className={clsx(
+          styles.projectCard,
+          styles.projectCardHero,
+          styles.projectCardDesktop,
+        )}
         aria-labelledby={labelIdDesktop}
       >
         <div className={styles.projectDesktopInner}>
           <div className={styles.projectOverlay}>
-            <header className={clsx(styles.projectHeader, styles.projectHeaderOverlay)}>
+            <header
+              className={clsx(
+                styles.projectHeader,
+                styles.projectHeaderOverlay,
+              )}
+            >
               <div className={styles.projectTitleRow}>
                 <h3
-                  className={clsx(styles.projectTitle, styles.projectTitleOverlay)}
+                  className={clsx(
+                    styles.projectTitle,
+                    styles.projectTitleOverlay,
+                  )}
                   id={labelIdDesktop}
                 >
                   {project.title}
@@ -257,7 +325,10 @@ function ProjectCard({
                     {project.links.map((l) => (
                       <a
                         key={l.href}
-                        className={clsx(styles.projectLink, styles.projectLinkOverlay)}
+                        className={clsx(
+                          styles.projectLink,
+                          styles.projectLinkOverlay,
+                        )}
                         href={l.href}
                         target="_blank"
                         rel="noreferrer"
@@ -268,22 +339,44 @@ function ProjectCard({
                   </div>
                 ) : null}
               </div>
-              <p className={clsx(styles.projectDescription, styles.projectDescriptionOverlay)}>
+              <p
+                className={clsx(
+                  styles.projectDescription,
+                  styles.projectDescriptionOverlay,
+                )}
+              >
                 {project.description}
               </p>
               {project.team && (
                 <>
-                  <p className={clsx(styles.projectTeam, styles.projectDescriptionOverlay)}>
+                  <p
+                    className={clsx(
+                      styles.projectTeam,
+                      styles.projectDescriptionOverlay,
+                    )}
+                  >
                     {project.team}
                   </p>
                 </>
               )}
               {project.outro && (
-                <p className={clsx(styles.projectDescription, styles.projectDescriptionOverlay)}>
+                <p
+                  className={clsx(
+                    styles.projectDescription,
+                    styles.projectDescriptionOverlay,
+                  )}
+                >
                   {project.outro}
                 </p>
               )}
-              <ul className={clsx(styles.chips, styles.chipsSm, styles.chipsOverlay)} aria-label="Стек">
+              <ul
+                className={clsx(
+                  styles.chips,
+                  styles.chipsSm,
+                  styles.chipsOverlay,
+                )}
+                aria-label="Стек"
+              >
                 {project.stack.map((st) => (
                   <li key={st}>{st}</li>
                 ))}
@@ -293,8 +386,14 @@ function ProjectCard({
 
           <div className={styles.projectGalleryDesktop} aria-label="Скриншоты">
             <button
+              key={stripScrollInEnd ? "1" : "0"}
               type="button"
-              className={`button ${styles.galleryNav} ${styles.galleryNavPrev} ${!isGalleryScrollable ? styles.galleryNavHidden : ""}`}
+              className={`button ${styles.galleryNav} ${styles.galleryNavPrev} ${
+                stripRef.current?.scrollLeft !== undefined &&
+                stripRef.current.scrollLeft < 3
+                  ? styles.galleryNavBlur
+                  : ""
+              } ${!isGalleryScrollable ? styles.galleryNavHidden : ""}`}
               onClick={() => scrollStrip(-1)}
               aria-label="Прокрутить галерею назад"
               tabIndex={isGalleryScrollable ? 0 : -1}
@@ -308,7 +407,12 @@ function ProjectCard({
                 <button
                   key={s.src + s.alt}
                   type="button"
-                  className={styles.galleryThumbButton}
+                  className={clsx(
+                    styles.galleryThumbButton,
+                    s.isDesktop
+                      ? styles.galleryThumbDesktopScreenshot
+                      : undefined,
+                  )}
                   onClick={() => onOpenLightbox(s.src, s.alt, project.title)}
                   aria-label={`Увеличить: ${s.alt}`}
                 >
@@ -322,8 +426,17 @@ function ProjectCard({
               ))}
             </div>
             <button
+              key={stripScrollInEnd ? "2" : "3"}
               type="button"
-              className={`button ${styles.galleryNav} ${styles.galleryNavNext} ${!isGalleryScrollable ? styles.galleryNavHidden : ""}`}
+              className={`button ${styles.galleryNav} ${styles.galleryNavNext} ${
+                stripRef.current?.scrollLeft !== undefined &&
+                stripRef.current?.scrollWidth !== undefined &&
+                stripRef.current?.clientWidth !== undefined &&
+                stripRef.current.scrollWidth - stripRef.current.scrollLeft <
+                  stripRef.current.clientWidth + 3
+                  ? styles.galleryNavBlur
+                  : ""
+              } ${!isGalleryScrollable ? styles.galleryNavHidden : ""}`}
               onClick={() => scrollStrip(1)}
               aria-label="Прокрутить галерею вперёд"
               tabIndex={isGalleryScrollable ? 0 : -1}

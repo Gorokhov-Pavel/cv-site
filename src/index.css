@@ -40,23 +40,21 @@ body {
   font-size: 16px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-bg-2: rgba(192, 132, 252, 0.05);
-    --accent-border: rgba(141, 135, 145, 0.719);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --card-bg: rgba(31, 32, 40, 0.65);
-    --chip-bg: rgba(31, 32, 40, 0.8);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+:root[data-theme="dark"] {
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-bg-2: rgba(192, 132, 252, 0.05);
+  --accent-border: rgba(141, 135, 145, 0.719);
+  --social-bg: rgba(47, 48, 58, 0.5);
+  --card-bg: rgba(31, 32, 40, 0.65);
+  --chip-bg: rgba(31, 32, 40, 0.8);
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
 }
 
 #root {
@@ -72,6 +70,7 @@ body {
 @media (max-width: 719px) {
   /* Включается из JS (Projects), когда первый проект занял ≥ половины экрана */
   html.snapProjects {
+    scroll-snap-stop: always;
     scroll-snap-type: y mandatory;
     scroll-padding: 0;
     overscroll-behavior: auto;
@@ -129,3 +128,4 @@ code {
 a {
   color: inherit;
 }
+
