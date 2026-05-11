@@ -68,7 +68,7 @@ body {
 }
 
 @media (max-width: 719px) {
-  /* Включается из JS (Projects), когда первый проект занял ≥ половины экрана */
+  /* Включается из JS (Projects) */
   html.snapProjects {
     scroll-snap-stop: always;
     scroll-snap-type: y mandatory;

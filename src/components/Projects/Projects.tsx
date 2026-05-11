@@ -97,18 +97,19 @@ export function Projects({
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          console.log("entry.target", entry.target);
-          entry.target.classList.add('entered');
-        } else {
-          entry.target.classList.remove('entered');
+        if (window.matchMedia("(max-width: 719px)").matches) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('entered');
+          } else {
+            entry.target.classList.remove('entered');
+          }
         }
       });
     }, {
       threshold: 0.4
     });
 
-    const items = document.querySelectorAll('.' + styles.projectsGrid + ' article');
+    const items = document.querySelectorAll('.' + styles.projectsGrid + ' article:first-of-type');
     items.forEach((item) => observer.observe(item));
 
   }, [])

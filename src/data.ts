@@ -18,6 +18,10 @@ import fz4 from "./assets/projects/fizzio/IMG_0017.png";
 import fz5 from "./assets/projects/fizzio/IMG_0016.png";
 import bz1 from "./assets/projects/bliznetsy/5188446710231929852.jpg"
 import bz2 from "./assets/projects/bliznetsy/IMG_0010.png"
+import sp1 from "./assets/projects/socialprofiler/5192813051294456077.jpg"
+import sb1 from "./assets/projects/sportbaza/5192813051294456074.jpg"
+import sb2 from "./assets/projects/sportbaza/5192813051294456075.jpg"
+import sb3 from "./assets/projects/sportbaza/5192813051294456076.jpg"
 
 import profilePhoto from "./assets/profile.svg";
 
@@ -34,7 +38,9 @@ export const projects: Project[] = [
       { label: "sportbaza.moswkf.ru", href: "https://sportbaza.moswkf.ru" },
     ],
     screenshots: [
-      
+      { src: sb1, alt: "Экран 1" },
+      { src: sb2, alt: "Экран 2" },
+      { src: sb3, alt: "Экран 3" },
     ],
   },
   {
@@ -149,7 +155,9 @@ export const projects: Project[] = [
     team: "Команда проекта: 5 человек: 1 девопс, 2 бекендера, 2 фронтенд.",
     //outro: '',
     stack: ["React", "TypeScript", "scss", "Chart.js"],
-    screenshots: [],
+    screenshots: [
+      { src: sp1, alt: "Экран 1" },
+    ],
   },
 ];
 
