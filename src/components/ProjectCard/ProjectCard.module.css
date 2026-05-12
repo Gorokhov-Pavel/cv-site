@@ -90,7 +90,7 @@
 }
 
 .projectOverlayVisible {
-  opacity: 0.95;
+  opacity: 1;
 }
 
 .projectOverlayHidden {
@@ -108,7 +108,7 @@
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(0, 0, 0, 0.5);
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 1);
   cursor: pointer;
   font-size: 18px;
   display: flex;
@@ -138,21 +138,22 @@
 
 .projectTitleOverlay,
 .projectDescriptionOverlay {
-  color: rgba(255, 255, 255, 0.92);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 1);
 }
 
 .projectLinkOverlay {
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 1);
 }
 
 .projectLinkOverlay:hover {
-  border-bottom-color: rgba(255, 255, 255, 0.92);
+  border-bottom-color: rgba(255, 255, 255, 1);
 }
 
 .chipsOverlay > li {
   border-color: rgba(255, 255, 255, 0.22);
   background: rgba(0, 0, 0, 0.28);
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 1);
 }
 
 .projectHeaderOverlay {
@@ -160,9 +161,9 @@
   gap: 10px;
   padding: 14px 14px 12px;
   border-radius: 14px;
-  background: rgba(0, 0, 0, 0.28);
+  background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(1px);
 }
 
 .projectGalleryDesktop {
@@ -221,7 +222,7 @@
   padding: 9px 12px;
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.38);
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 1);
   font-size: 14px;
   line-height: 1.25;
 }
@@ -245,11 +246,10 @@
     max-width: 100vw;
     margin-left: calc(50% - 50vw);
     scroll-snap-align: start;
-    scroll-snap-stop: always;
-    scroll-snap-type: y mandatory;
+    /*scroll-snap-stop: always;
+    scroll-snap-type: y mandatory;*/
     background-position: center;
     background-size: 100% 100%;
-    /*background-size: contain;*/
     background-repeat: no-repeat;
     overflow: clip;
     border-radius: 0;
