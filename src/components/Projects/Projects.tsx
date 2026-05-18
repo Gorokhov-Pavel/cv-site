@@ -4,6 +4,10 @@ import { projects, projectsHead } from "../../data";
 import styles from "./Projects.module.css";
 import clsx from "clsx";
 
+const SNAP_CLASS = "snapProjects";
+const ZOOMED_CLASS = "zoomed";
+const MOBILE_BREAKPOINT = 719;
+
 export function Projects({
   openLightbox,
 }: {
@@ -13,16 +17,16 @@ export function Projects({
   const firstProjectSlideRef = useRef<HTMLElement>(null);
   const snapEngagedRef = useRef(false);
   const [isZoomed, setIsZoomed] = useState(false);
-  const debouncedAfterResize = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resizeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const SNAP = "snapProjects";
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
     const root = document.documentElement;
-    const mq = window.matchMedia("(max-width: 719px)");
+      const viewport = window.visualViewport;
 
     function clearSnap() {
       snapEngagedRef.current = false;
-      root.classList.remove(SNAP);
+      root.classList.remove(SNAP_CLASS);
     }
 
     function updateSnapHandleResize(e?: {type: string}) {
@@ -33,17 +37,15 @@ export function Projects({
 
       const section = sectionRef.current;
       if (!section) return;
-
       const vh = window.innerHeight;
-      const viewport = window.visualViewport;
       const zoomed = viewport ? viewport.scale > 1.05 : false;
       setIsZoomed((current) => (current === zoomed ? current : zoomed));
 
       if (zoomed) {
-        root.classList.add("zoomed");
-      } else {
-        root.classList.remove("zoomed");
-      }
+        root.classList.add(ZOOMED_CLASS);
+          } else {
+        root.classList.remove(ZOOMED_CLASS);
+          }
 
       const sectionRect = section.getBoundingClientRect();
       const inProjectsSection = sectionRect.bottom >= vh && sectionRect.top <= 0;
@@ -53,13 +55,13 @@ export function Projects({
         return;
       }
 
-      root.classList.add(SNAP);
+      root.classList.add(SNAP_CLASS);
 
       if (mq.matches && !isZoomed && e?.type !== 'scroll') {
         const section = sectionRef.current;
         if (section) {
-          debouncedAfterResize.current = setTimeout(() => {
-            const itemHeight = window.innerHeight; 
+          resizeTimeoutRef.current = setTimeout(() => {
+            const itemHeight = window.innerHeight;
             const section = sectionRef.current;
             const sectionRect = section?.getBoundingClientRect();
             const inProjectsSection = sectionRect && sectionRect.bottom >= itemHeight && sectionRect.top <= 0;
@@ -97,7 +99,7 @@ export function Projects({
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (window.matchMedia("(max-width: 719px)").matches) {
+        if (window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches) {
           if (entry.isIntersecting) {
             entry.target.classList.add('entered');
           } else {
@@ -117,46 +119,50 @@ export function Projects({
   return (
     <section
       ref={sectionRef}
-      className={clsx('section', styles.sectionProjects)}
+      className={clsx("section", styles.sectionProjects)}
       aria-labelledby="projects-title"
     >
       <div className={styles.sectionHeader}>
         <h2 id="projects-title">{projectsHead.title}</h2>
-        {projectsHead.descriptions.map((d) => (
-          <p className="muted" key={d.text}>
-            {d.text
+        {projectsHead.descriptions.map((description, index) => (
+          <p className="muted" key={index}>
+            {description.text
               .split(
                 new RegExp(
-                  `(${d.insideLinks.map((il) => il.label).join("|")})`,
+                  `(${description.insideLinks.map((link) => link.label).join("|")})`,
                   "g",
                 ),
               )
-              .map((st, i) => {
-                if (i % 2 === 0) {
-                  return st;
-                } else {
-                  return (
-                    <a
-                      className={styles.link}
-                      href={d.insideLinks.find((il) => il.label === st)?.href}
-                      key={i}
-                    >
-                      {st}
-                    </a>
-                  );
+              .map((segment, segmentIndex) => {
+                if (segmentIndex % 2 === 0) {
+                  return segment;
                 }
+
+                const matchedLink = description.insideLinks.find(
+                  (link) => link.label === segment,
+                );
+
+                return matchedLink ? (
+                  <a
+                    className={styles.link}
+                    href={matchedLink.href}
+                    key={segmentIndex}
+                  >
+                    {segment}
+                  </a>
+                ) : null;
               })}
           </p>
         ))}
       </div>
 
       <div className={styles.projectsGrid}>
-        {projects.map((p, i) => (
+        {projects.map((project, index) => (
           <ProjectCard
-            key={p.title}
-            project={p}
+            key={project.title}
+            project={project}
             onOpenLightbox={openLightbox}
-            firstSlideRef={i === 0 ? firstProjectSlideRef : undefined}
+            firstSlideRef={index === 0 ? firstProjectSlideRef : undefined}
             isZoomed={isZoomed}
           />
         ))}

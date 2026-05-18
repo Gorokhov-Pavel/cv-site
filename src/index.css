@@ -1,4 +1,5 @@
 html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -96,17 +97,14 @@ body {
 
 h2 {
   font-family: var(--heading);
+  font-size: 20px;
   font-weight: 500;
-  color: var(--text-h);
-}
-
-h2 {
-  font-size: 24px;
   line-height: 118%;
   letter-spacing: -0.24px;
   margin: 0 0 8px;
-  font-size: 20px;
+  color: var(--text-h);
 }
+
 p {
   margin: 0;
 }
@@ -128,4 +126,3 @@ code {
 a {
   color: inherit;
 }
-

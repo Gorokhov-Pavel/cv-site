@@ -4,10 +4,7 @@ import { Projects } from "../Projects/Projects.tsx";
 import { cvPageHead, skills } from "../../data.ts";
 import clsx from "clsx";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
-
-type LightboxState =
-  | { isOpen: false }
-  | { isOpen: true; src: string; alt: string; title: string };
+import type { LightboxState } from "../../types/index.ts";
 
 function CVPage() {
   const [lightbox, setLightbox] = useState<LightboxState>({ isOpen: false });
@@ -34,7 +31,7 @@ function CVPage() {
   }
 
   return (
-    <div className={styles['cv-page']}>
+    <div className={styles["cv-page"]}>
       <header className={styles.header}>
         <div className={styles.hero}>
           <img
@@ -43,27 +40,35 @@ function CVPage() {
             width={112}
             height={112}
             alt={cvPageHead.avatar.alt}
-            onClick={() => openLightbox(cvPageHead.avatar.src, cvPageHead.avatar.alt, cvPageHead.avatar.alt)}
+            onClick={() =>
+              openLightbox(
+                cvPageHead.avatar.src,
+                cvPageHead.avatar.alt,
+                cvPageHead.avatar.alt,
+              )
+            }
           />
           <div className={styles.heroText}>
             <h1 className={styles.name}>{cvPageHead.name}</h1>
             <p className={styles.role}>{cvPageHead.role}</p>
-            <p className={styles.summary}>
-              {cvPageHead.summary}
-            </p>
+            <p className={styles.summary}>{cvPageHead.summary}</p>
             <div className={styles.ctaRow}>
               {/*<a className="button" href="mailto:you@example.com">
                 {cvPageHead.}
               </a>*/}
               <a
-                className={clsx('button', 'ghost')}
+                className={clsx("button", "ghost")}
                 href={cvPageHead.githubButton.href}
                 target="_blank"
                 rel="noreferrer"
               >
                 {cvPageHead.githubButton.label}
               </a>
-              <a className="button" href={cvPageHead.downloadCVButton.href} download>
+              <a
+                className="button"
+                href={cvPageHead.downloadCVButton.href}
+                download
+              >
                 {cvPageHead.downloadCVButton.label}
               </a>
             </div>
@@ -75,8 +80,8 @@ function CVPage() {
       <main className={styles.main}>
         <section className="section" aria-labelledby="skills-title">
           <h2 id="skills-title">{skills.title}</h2>
-          <ul className={styles['skills-list']}>
-            {skills.list.map(li => (
+          <ul className={styles["skills-list"]}>
+            {skills.list.map((li) => (
               <li key={li}>{li}</li>
             ))}
           </ul>
@@ -106,10 +111,13 @@ function CVPage() {
           //aria-label={`Скриншот проекта: ${lightbox.title}`}
           onClick={closeLightbox}
         >
-          <div className={styles.lightboxInner} onClick={(e) => {
-            e.stopPropagation();
-            closeLightbox();
-          }}>
+          <div
+            className={styles.lightboxInner}
+            onClick={(e) => {
+              e.stopPropagation();
+              closeLightbox();
+            }}
+          >
             <button
               type="button"
               className={styles.lightboxClose}
@@ -131,5 +139,3 @@ function CVPage() {
 }
 
 export default CVPage;
-
-

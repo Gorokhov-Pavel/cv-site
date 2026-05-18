@@ -1,30 +1,28 @@
 import { useState, useEffect } from "react";
 import styles from "./ThemeSwitcher.module.css";
+import type { Theme } from "../../types";
 
-type Theme = "light" | "dark";
+const LOCAL_STORAGE_KEY = "theme";
+const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 
 function ThemeSwitcher() {
   const [theme, setTheme] = useState<Theme>("light");
 
+  // Initialize theme from localStorage or system preference
   useEffect(() => {
-    // Получаем тему из localStorage или используем предпочтение браузера
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const savedTheme = localStorage.getItem(LOCAL_STORAGE_KEY) as Theme | null;
+    const prefersDark = window.matchMedia(DARK_MODE_MEDIA_QUERY).matches;
 
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    } else {
-      const initialTheme = prefersDark ? "dark" : "light";
-      setTheme(initialTheme);
-      document.documentElement.setAttribute("data-theme", initialTheme);
-    }
+    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
+    setTheme(initialTheme);
+    document.documentElement.setAttribute("data-theme", initialTheme);
   }, []);
 
+  // Toggle theme and persist preference
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    localStorage.setItem(LOCAL_STORAGE_KEY, newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
   };
 

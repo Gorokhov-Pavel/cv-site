@@ -1,4 +1,4 @@
-import type { Project } from "./components/ProjectCard/ProjectCard";
+import type { Project } from "./types";
 import hs1 from "./assets/projects/humansignals/5458651379221514507.jpg";
 import hs2 from "./assets/projects/humansignals/5474463163882784866.jpg";
 import sn1 from "./assets/projects/stroynee/IMG_6473.png";
